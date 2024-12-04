@@ -1,0 +1,20 @@
+{
+  "request": {
+    "url": "https://example.com/api",
+    "method": "POST",
+    "headers": [["Content-Type", "application/json"]],
+    "body": "{\"a\":1,\"b\":2}"
+  },
+  "response": {
+    "status": 200,
+    "statusText": "OK",
+    "headers": [["Content-Type", "application/json"]],
+    "body": "{\"c\":3,\"d\":4}"
+  },
+  "tests": [
+    {
+      "name": "response status was 200",
+      "test": "$[*].dimensions[?(@.name == 'status' && @.value == 200)]"
+    }
+  ]
+}

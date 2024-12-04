@@ -1,0 +1,15 @@
+{
+  "name": "test",
+  "description": "test pack",
+  "version": "1.0.0",
+  "schema": "pre1",
+  "permissions": {
+    "domains": [".+"]
+  },
+  "capture": {
+    "domain": {
+      "type": "string",
+      "description": "Domain of the request"
+    }
+  }
+}
