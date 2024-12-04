@@ -31,8 +31,7 @@ export const validateFixture = z.object({
 export type Fixture = z.infer<typeof validateFixture>;
 
 export type PackcheckOptions = {
-  format: "json" | "ndjson" | "none";
-  test: boolean;
+  format: "json" | "ndjson" | "none" | "test";
   fixture: Fixture;
   manifest: Manifest;
   wasm: ArrayBuffer;
@@ -92,35 +91,18 @@ export const packcheck = async (options: PackcheckOptions) => {
 
   msw.close();
 
+  const tests: Array<{ name: string; pass: boolean }> = [];
+
   // perform tests if any
-  if (options.test && options.fixture.tests) {
+  if (options.fixture.tests) {
     for (const test of options.fixture.tests) {
       const result = jp.query(logs, test.test);
-      if (result.length === 0) {
-        throw new Error(`${red("🗙")} ${red(test.name)}`);
-      } else {
-        console.log(`${green("✓")} ${green(test.name)}`);
-      }
+      tests.push({ name: test.name, pass: result.length > 0 });
     }
   }
 
-  if (options.format === "none") {
-    return "";
-  }
-
-  if (options.format === "json") {
-    return JSON.stringify(logs, null, 2);
-  }
-
-  if (options.format === "ndjson") {
-    const lines: string[] = [];
-    for (const log of logs) {
-      lines.push(JSON.stringify(log));
-    }
-
-    return lines.join("\n");
-  }
-
-  console.error("ERROR: Invalid format");
-  return "";
+  return {
+    logs,
+    tests,
+  };
 };

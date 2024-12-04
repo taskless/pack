@@ -3,6 +3,7 @@
 import { readFileSync } from "node:fs";
 import process from "node:process";
 import { type Manifest } from "@taskless/loader";
+import { green, red } from "colorette";
 import commandLineArgs, { type OptionDefinition } from "command-line-args";
 import commandLineUsage, { type Section } from "command-line-usage";
 import { type JsonObject } from "type-fest";
@@ -51,15 +52,9 @@ const sections: Section[] = [
         name: "format",
         type: String,
         typeLabel: "<format>",
-        defaultValue: "none",
+        defaultValue: "test",
         description:
-          "The output format to use. Setting the output will disable automatic testing (--test). Must be one of:\njson, ndjson, none",
-      },
-      {
-        name: "test",
-        type: Boolean,
-        description:
-          "Run tests on the output. This will output the test results to stdout. Enabled by default, but disabled if an output other than 'none' is set",
+          "The output format to use (defaults to `none`). Must be one of:\njson, ndjson, test, none",
       },
       {
         name: "wasm",
@@ -78,8 +73,8 @@ const sections: Section[] = [
   },
 ];
 
-const required = ["fixture", "manifest", "wasm"];
-const formats = ["json", "ndjson", "none"];
+const required = ["fixture", "manifest"];
+const formats = ["json", "ndjson", "none", "test"];
 
 const options = commandLineArgs(extractDefinitions(sections));
 
@@ -107,15 +102,49 @@ try {
     // run packcheck with our options & perform tests
     const output = await packcheck({
       format: options.format as PackcheckOptions["format"],
-      test: options.format === "none" || (options.test as boolean),
       fixture,
       manifest,
       wasm,
     });
 
-    // return lines to stdout
-    if (options.format !== "none") {
-      console.log(output);
+    // check tests for failure
+    const failed = output.tests.some((t) => !t.pass);
+
+    switch (options.format) {
+      case "test": {
+        for (const test of output.tests) {
+          const color = test.pass ? green : red;
+          const symbol = test.pass ? "✓" : "🗙";
+          console.log(`${color(symbol)} ${color(test.name)}`);
+        }
+
+        break;
+      }
+
+      case "json": {
+        console.log(JSON.stringify(output, null, 2));
+        break;
+      }
+
+      case "ndjson": {
+        for (const line of output.logs) {
+          console.log(JSON.stringify(line));
+        }
+
+        for (const line of output.tests) {
+          console.log(JSON.stringify(line));
+        }
+
+        break;
+      }
+
+      default: {
+        throw new Error(`Invalid format: ${options.format}`);
+      }
+    }
+
+    if (failed) {
+      process.exit(1);
     }
 
     process.exit(0);

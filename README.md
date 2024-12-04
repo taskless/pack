@@ -8,12 +8,12 @@ Validate your Taskless Packs before submitting
 npx @taskless/packcheck --fixture <fixture> --manifest <manifest> [--format none|json|ndjson] <wasm>
 ```
 
-| flag         | type              | description                        |
-| :----------- | :---------------- | :--------------------------------- |
-| `--fixture`  | string            | Path to the fixture JSON file      |
-| `--manifest` | string            | Path to the manifest JSON file     |
-| `--format`   | (optional) string | Output format (none, json, ndjson) |
-| `<wasm>`     | string            | Path to the wasm file              |
+| flag         | type              | description                              |
+| :----------- | :---------------- | :--------------------------------------- |
+| `--fixture`  | string            | Path to the fixture JSON file            |
+| `--manifest` | string            | Path to the manifest JSON file           |
+| `--format`   | (optional) string | Output format (none, test, json, ndjson) |
+| `<wasm>`     | string            | Path to the wasm file                    |
 
 # Fixture Format
 
@@ -44,6 +44,4 @@ A fixture file defines the mocked request, response, and tests you want to make 
 
 # Controlling Output
 
-The `--format` flag allows you to control the output format. The default format is `none`, which will only output the result of the tests. The `json` format will output the result of the tests as a single JSON array. The `ndjson` format will output the output as newline-delimited JSON. These output formats mimic what you would get using the Taskless library in programatic mode.
-
-When running tests with `--test` or `-t`, the output is automatically set to `none`.
+The `--format` flag allows you to control the output format. The default format is `test`, which will only output the result of the tests. The `json` format will output the result of the tests as a single JSON array. The `ndjson` format will output the output as newline-delimited JSON. These output formats mimic what you would get using the Taskless library in programatic mode, combined with the test results.
