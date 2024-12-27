@@ -61,6 +61,16 @@ export const packcheck = async (options: PackcheckOptions) => {
   };
 
   const logs: ConsolePayload[] = [];
+  const messages: Record<string, string[]> = {
+    debug: [],
+    info: [],
+    warn: [],
+    error: [],
+  };
+
+  const createLogger = (type: string) => (message: string) => {
+    messages[type].push(message);
+  };
 
   const t = taskless(undefined, {
     network: false,
@@ -71,10 +81,10 @@ export const packcheck = async (options: PackcheckOptions) => {
       msw,
     },
     log: {
-      debug: log,
-      info: log,
-      warn: log,
-      error: log,
+      debug: createLogger("debug"),
+      info: createLogger("info"),
+      warn: createLogger("warn"),
+      error: createLogger("error"),
       data(message) {
         logs.push(JSON.parse(message) as ConsolePayload);
       },
@@ -104,5 +114,6 @@ export const packcheck = async (options: PackcheckOptions) => {
   return {
     logs,
     tests,
+    messages,
   };
 };
