@@ -1,5 +1,11 @@
 # @taskless/packcheck
 
+## 0.0.4
+
+### Patch Changes
+
+- b99a7e4: Messages from Taskless are now available in the JSON outputs
+
 ## 0.0.3
 
 ### Patch Changes
