@@ -14,7 +14,7 @@
   "tests": [
     {
       "name": "response status was 200",
-      "test": "$[*].dimensions[?(@.name == 'status' && @.value == 200)]"
+      "test": "$[*].dimensions[?(@.name == 'test/status' && @.value == 200)]"
     }
   ]
 }
