@@ -6,7 +6,7 @@ import path from "node:path";
 
 import tsconfigJson from "./tsconfig.json";
 
-const entryPoints = ["./src/index.ts"];
+const entryPoints = ["./src/cli.ts"];
 
 export default defineConfig({
   plugins: [

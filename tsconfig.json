@@ -34,6 +34,7 @@
     "types": ["node", "vite/client"],
     "allowJs": true,
     "lib": ["ES2021"],
+    "skipLibCheck": true,
 
     "paths": {
       "@~/*": ["./src/*"],
