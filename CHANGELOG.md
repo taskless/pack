@@ -1,5 +1,11 @@
 # @taskless/packcheck
 
+## 0.0.6
+
+### Patch Changes
+
+- fa9a1f1: Renames to @taskless/pack to support check and publish operations
+
 ## 0.0.5
 
 ### Patch Changes
