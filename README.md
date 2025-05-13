@@ -36,13 +36,6 @@ Options:
   --env       Path to environment variables file                        [string]
 ```
 
-| flag         | type              | description                              |
-| :----------- | :---------------- | :--------------------------------------- |
-| `--fixture`  | string            | Path to the fixture JSON file            |
-| `--manifest` | string            | Path to the manifest JSON file           |
-| `--format`   | (optional) string | Output format (none, test, json, ndjson) |
-| `<wasm>`     | string            | Path to the wasm file                    |
-
 # Testing Packs with `pack check`
 
 ## Fixture Format
