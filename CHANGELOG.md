@@ -1,5 +1,11 @@
 # @taskless/packcheck
 
+## 0.0.8
+
+### Patch Changes
+
+- caa45f4: Updates the CLI command for the published package
+
 ## 0.0.6
 
 ### Patch Changes
