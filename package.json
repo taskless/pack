@@ -83,7 +83,7 @@
     "access": "public"
   },
   "bin": {
-    "packcheck": "dist/index.js"
+    "pack": "dist/cli.js"
   },
   "keywords": []
 }

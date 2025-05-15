@@ -45,13 +45,6 @@ const loadEnvironment = async (
   return env;
 };
 
-type WriteFileToTargetOptions = {
-  path: string;
-  target: string;
-  fileField: string;
-  additionalFields: Array<{ name: string; value: string }>;
-};
-
 /**
  * A put command that reads from disk with streams and avoids loading
  * the entire file into memory, because the file can be a large wasm file...
@@ -125,6 +118,10 @@ export const publish = async (options: PublishOptions) => {
     console.error("You must be logged in as an organization to publish a pack");
     process.exit(1); // eslint-disable-line unicorn/no-process-exit
   }
+
+  console.log(
+    `Organization ID: ${credentialsResponse.credentials.organization?.id}`
+  );
 
   // get the size of the manifest and wasm files
   const manifestStat = await stat(options.manifest);
