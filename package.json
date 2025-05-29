@@ -10,6 +10,7 @@
     "build:bin": "shx chmod +x dist/cli.js",
     "build:vite": "vite build",
     "changeset": "changeset",
+    "cli": "tsx src/cli.ts",
     "codegen": "typed-graphql-builder --schema https://api.taskless.io/graphql --output ./src/__generated__/api.ts",
     "codegen:dev": "typed-graphql-builder --schema http://localhost:3000/graphql --output ./src/__generated__/api.ts",
     "husky": "husky",
@@ -39,7 +40,7 @@
     "package.json"
   ],
   "dependencies": {
-    "@taskless/loader": "^0.0.29",
+    "@taskless/loader": "*",
     "colorette": "^2.0.20",
     "dotenv": "^16.5.0",
     "graphql-request": "^7.1.2",
