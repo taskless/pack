@@ -1,5 +1,11 @@
 # @taskless/packcheck
 
+## 0.0.9
+
+### Patch Changes
+
+- ca436d8: Moves taskless/loader to \* for semver, so that pack checking is always based on the latest build
+
 ## 0.0.8
 
 ### Patch Changes
