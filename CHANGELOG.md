@@ -1,5 +1,11 @@
 # @taskless/packcheck
 
+## 0.0.10
+
+### Patch Changes
+
+- a313fc5: Updates the dependencies to use the latest loader code
+
 ## 0.0.9
 
 ### Patch Changes
