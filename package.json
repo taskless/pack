@@ -40,7 +40,7 @@
     "package.json"
   ],
   "dependencies": {
-    "@taskless/loader": "*",
+    "@taskless/loader": "latest",
     "colorette": "^2.0.20",
     "dotenv": "^16.5.0",
     "graphql-request": "^7.1.2",
