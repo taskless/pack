@@ -5,11 +5,12 @@ Utilities for working with Taskless Packs - [taskless.io](https://www.taskless.i
 # Usage
 
 ```
-pack <command>
+npx @taskless/pack <command>
 
 Commands:
-  pack check    Check a pack against fixtures
-  pack publish  Publish a pack
+  check    Check a pack against fixtures
+  publish  Publish a pack
+  install  Install a pack from a URL
 
 --------------------------------------------------
 

@@ -1,85 +1,79 @@
-#!/usr/bin/env -S node --no-warnings
-
 import process from "node:process";
-import yargs from "yargs";
-import { hideBin } from "yargs/helpers";
+import { Command } from "@commander-js/extra-typings";
+import package_ from "../package.json";
+import { install } from "./commands/install.js";
 import { packcheck } from "./commands/packcheck.js";
 import { publish } from "./commands/publish.js";
 
-yargs()
-  .command(
-    "check",
-    "Check a pack against fixtures",
-    (yargs) => {
-      return yargs.option({
-        fixture: {
-          type: "string",
-          description: "Path to the fixture file",
-          demandOption: true,
-        },
-        manifest: {
-          type: "string",
-          description: "Path to the manifest file",
-          demandOption: true,
-        },
-        wasm: {
-          type: "string",
-          description: "Path to the wasm file",
-          demandOption: true,
-        },
-        format: {
-          type: "string",
-          description: "Output format",
-          choices: ["json", "ndjson", "none", "test"] as const,
-          default: "test",
-        },
-      });
-    },
-    async (argv) => {
-      // argv is fully typed
-      await packcheck({
-        format: argv.format,
-        fixture: argv.fixture,
-        manifest: argv.manifest,
-        wasm: argv.wasm,
-      });
+const program = new Command();
 
-      process.exit(0);
+program
+  .name("pack")
+  .description("Work with Taskless packs")
+  .version(package_?.version ?? "unknown");
+
+program
+  .command("check")
+  .description("Check a pack against fixtures")
+  // .argument('<string>', 'string to split')
+  .requiredOption("--fixture <fixture>", "Path to the fixture file")
+  .requiredOption("--manifest <manifest>", "Path to the manifest file")
+  .requiredOption("--wasm <wasm>", "Path to the wasm file")
+  .requiredOption(
+    "--format <format>",
+    "Output format. One of json, ndjson, none, test",
+    (value) => {
+      const validFormats = ["json", "ndjson", "none", "test"];
+      if (validFormats.includes(value)) {
+        return value;
+      }
+
+      throw new Error(
+        `Invalid format: ${value}. Valid formats are: ${validFormats.join(", ")}`
+      );
     }
   )
-  .command(
-    "publish",
-    "Publish a pack",
-    (yargs) => {
-      return yargs.option({
-        manifest: {
-          type: "string",
-          description: "Path to the manifest file",
-          demandOption: true,
-        },
-        wasm: {
-          type: "string",
-          description: "Path to the wasm file",
-          demandOption: true,
-        },
-        env: {
-          type: "string",
-          description: "Path to environment variables file",
-          demandOption: false,
-        },
-      });
-    },
-    async (argv) => {
-      // argv is fully typed
-      await publish({
-        manifest: argv.manifest,
-        wasm: argv.wasm,
-        env: argv.env,
-      });
+  .action(async (options) => {
+    await packcheck({
+      format: options.format,
+      fixture: options.fixture,
+      manifest: options.manifest,
+      wasm: options.wasm,
+    });
+  });
 
-      process.exit(0);
-    }
+program
+  .command("publish")
+  .description("Publish a pack")
+  // .argument('<string>', 'string to split')
+  .requiredOption("--manifest <manifest>", "Path to the manifest file")
+  .requiredOption("--wasm <wasm>", "Path to the wasm file")
+  .option("--env [env]", "Path to the environment file")
+  .action(async (options) => {
+    const env = options.env && options.env !== true ? options.env : undefined;
+
+    await publish({
+      manifest: options.manifest,
+      wasm: options.wasm,
+      env,
+    });
+  });
+
+program
+  .command("install")
+  .description("Install a pack by URL")
+  .argument("<url>", "URL of a pack's tgz to install")
+  .option(
+    "-d, --destination <destination>",
+    "Destination directory for the installed pack, defaults to ./.taskless"
   )
-  .demandCommand(1, "You need to specify a command")
-  .help()
-  .parse(hideBin(process.argv));
+  .option("--env [env]", "Path to the environment file")
+  .action(async (url, options) => {
+    await install({
+      url,
+      destination: options.destination,
+      env: options.env && options.env !== true ? options.env : undefined,
+    });
+  });
+
+program.parse(process.argv);

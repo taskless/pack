@@ -29,3 +29,6 @@ out.txt
 
 # No env. Never env
 .env*
+
+# Taskless
+.taskless
