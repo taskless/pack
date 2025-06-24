@@ -1,7 +1,7 @@
 {
   "name": "@taskless/pack",
   "description": "CLI for working with Taskless packs",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "author": "Taskless",
   "license": "Apache-2.0",
   "repository": "taskless/pack",
