@@ -1,16 +1,27 @@
 import process from "node:process";
 import { Command } from "@commander-js/extra-typings";
-import package_ from "../package.json";
+import { readPackageUpSync } from "read-package-up";
 import { install } from "./commands/install.js";
 import { packcheck } from "./commands/packcheck.js";
 import { publish } from "./commands/publish.js";
+
+const packageData = readPackageUpSync();
+const packageJson = packageData?.packageJson;
+
+if (!packageJson) {
+  console.error(
+    "Could not find package.json in the current directory or any parent directory."
+  );
+  // eslint-disable-next-line unicorn/no-process-exit
+  process.exit(1);
+}
 
 const program = new Command();
 
 program
   .name("pack")
   .description("Work with Taskless packs")
-  .version(package_?.version ?? "unknown");
+  .version(packageJson.version ?? "unknown");
 
 program
   .command("check")
