@@ -1,5 +1,11 @@
 # @taskless/packcheck
 
+## 0.0.11
+
+### Patch Changes
+
+- adds an install command
+
 ## 0.0.10
 
 ### Patch Changes
