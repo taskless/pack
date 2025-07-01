@@ -3,6 +3,7 @@ import { readFile, stat } from "node:fs/promises";
 import http from "node:http";
 import https from "node:https";
 import process from "node:process";
+import { type Manifest } from "@taskless/loader";
 import { $$, mutation, query } from "@~/__generated__/api.js";
 import dotenv from "dotenv";
 import { GraphQLClient } from "graphql-request";
@@ -127,6 +128,19 @@ export const publish = async (options: PublishOptions) => {
   const manifestStat = await stat(options.manifest);
   const wasmStat = await stat(options.wasm);
 
+  let packName = "";
+  let packVersion = "";
+
+  try {
+    const manifestContent = await readFile(options.manifest, "utf8");
+    const manifestJson = JSON.parse(manifestContent) as Manifest;
+    packName = manifestJson.name;
+    packVersion = manifestJson.version;
+  } catch {
+    console.error("Failed to read manifest file. Ensure it is a valid JSON.");
+    process.exit(1); // eslint-disable-line unicorn/no-process-exit
+  }
+
   try {
     // make a graphql request to the taskless api
     const uploadRequestResponse = await client.request(uploadRequest, {
@@ -149,7 +163,7 @@ export const publish = async (options: PublishOptions) => {
     );
 
     if (uploadPackConfirmResponse.uploadPackConfirm) {
-      console.log("Pack published successfully!");
+      console.log(`Pack ${packName}@${packVersion} published successfully!`);
     } else {
       throw new Error("Did not receive a confirmation from the server");
     }

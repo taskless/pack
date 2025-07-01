@@ -1,8 +1,9 @@
 import process from "node:process";
 import { Command } from "@commander-js/extra-typings";
 import { readPackageUpSync } from "read-package-up";
+import { check } from "./commands/check.js";
+import { create } from "./commands/create.js";
 import { install } from "./commands/install.js";
-import { packcheck } from "./commands/packcheck.js";
 import { publish } from "./commands/publish.js";
 
 const packageData = readPackageUpSync();
@@ -45,7 +46,7 @@ program
     }
   )
   .action(async (options) => {
-    await packcheck({
+    await check({
       format: options.format,
       fixture: options.fixture,
       manifest: options.manifest,
@@ -84,6 +85,36 @@ program
       url,
       destination: options.destination,
       env: options.env && options.env !== true ? options.env : undefined,
+    });
+  });
+
+program
+  .command("version")
+  .description("Show the version of the pack CLI")
+  .action(() => {
+    if (packageJson && packageJson.version) {
+      console.log(`Pack CLI version: ${packageJson.version}`);
+    } else {
+      console.log("Pack CLI version: unknown");
+    }
+  });
+
+program
+  .command("create")
+  .description(
+    "Create a pack.tgz from a manifest and wasm file for distribution outside of Taskless"
+  )
+  .requiredOption("--manifest <manifest>", "Path to the manifest file")
+  .requiredOption("--wasm <wasm>", "Path to the wasm file")
+  .option(
+    "--out <out>",
+    "Output directory for the created pack, defaults to process.cwd()"
+  )
+  .action(async (options) => {
+    await create({
+      manifest: options.manifest,
+      wasm: options.wasm,
+      out: options.out ?? process.cwd(),
     });
   });
 

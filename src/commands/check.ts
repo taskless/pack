@@ -4,7 +4,7 @@ import { taskless } from "@taskless/loader/core";
 import { green, red } from "colorette";
 import jp from "jsonpath";
 import { http } from "msw";
-import { setupServer, SetupServerApi } from "msw/node";
+import { setupServer } from "msw/node";
 import { type JsonObject } from "type-fest";
 import { z } from "zod";
 import type { ConsolePayload, Manifest } from "@taskless/loader";
@@ -61,7 +61,7 @@ const loadFixture = async (path: string): Promise<Fixture> => {
   return fixture;
 };
 
-export const packcheck = async (options: PackcheckOptions) => {
+export const check = async (options: PackcheckOptions) => {
   const wasmFile = await loadWasm(options.wasm);
   const manifestFile = await loadManifest(options.manifest);
   const fixtureFile = await loadFixture(options.fixture);
