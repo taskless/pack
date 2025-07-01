@@ -6,36 +6,12 @@ Utilities for working with Taskless Packs - [taskless.io](https://www.taskless.i
 
 ```
 npx @taskless/pack <command>
-
-Commands:
-  check    Check a pack against fixtures
-  publish  Publish a pack
-  install  Install a pack from a URL
-
---------------------------------------------------
-
-pack check
-
-Check a pack against fixtures
-
-Options:
-  --fixture   Path to the fixture file                       [string] [required]
-  --manifest  Path to the manifest file                      [string] [required]
-  --wasm      Path to the wasm file                          [string] [required]
-  --format    Output format
-          [string] [choices: "json", "ndjson", "none", "test"] [default: "test"]
-
---------------------------------------------------
-
-pack publish
-
-Publish a pack
-
-Options:
-  --manifest  Path to the manifest file                      [string] [required]
-  --wasm      Path to the wasm file                          [string] [required]
-  --env       Path to environment variables file                        [string]
 ```
+
+- **install** Install a pack from a URL, downloading the pack.tgz and extracting it to the current directory
+- **check** Check a pack against fixtures, running a test suite that simulates network requests and responses
+- **publish** Publish a pack to Taskless Cloud (must be an organization with `publish` permission)
+- **create** Create a pack.tgz from a manifest and wasm file for distribution outside of Taskless
 
 # Testing Packs with `pack check`
 
