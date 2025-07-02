@@ -24,12 +24,12 @@ program
     "--format <format>",
     "Output format. One of json, ndjson, none, test. Defaults to test",
     (value) => {
-      const validFormats = ["json", "ndjson", "none", "test", "", undefined];
-      if (validFormats.includes(value)) {
-        if (value === "" || value === undefined) {
-          return "test"; // Default to json if empty
-        }
+      const validFormats = ["json", "ndjson", "none", "test"];
+      if (value === "" || value === undefined) {
+        return "test"; // Default to json if empty
+      }
 
+      if (validFormats.includes(value)) {
         return value;
       }
 
@@ -40,7 +40,7 @@ program
   )
   .action(async (options) => {
     await check({
-      format: options.format,
+      format: options.format ?? "test",
       fixture: options.fixture,
       manifest: options.manifest,
       wasm: options.wasm,
