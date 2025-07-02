@@ -11,7 +11,7 @@ npx @taskless/pack <command>
 - **install** Install a pack from a URL, downloading the pack.tgz and extracting it to the current directory
 - **check** Check a pack against fixtures, running a test suite that simulates network requests and responses
 - **publish** Publish a pack to Taskless Cloud (must be an organization with `publish` permission)
-- **create** Create a pack.tgz from a manifest and wasm file for distribution outside of Taskless
+- **bundle** Create a pack.tgz from a manifest and wasm file for distribution outside of Taskless
 
 # Testing Packs with `pack check`
 

@@ -1,8 +1,8 @@
 import process from "node:process";
 import { Command } from "@commander-js/extra-typings";
 import { readPackageUpSync } from "read-package-up";
+import { bundle } from "./commands/bundle.js";
 import { check } from "./commands/check.js";
-import { create } from "./commands/create.js";
 import { install } from "./commands/install.js";
 import { publish } from "./commands/publish.js";
 
@@ -100,7 +100,7 @@ program
   });
 
 program
-  .command("create")
+  .command("bundle")
   .description(
     "Create a pack.tgz from a manifest and wasm file for distribution outside of Taskless"
   )
@@ -111,7 +111,7 @@ program
     "Output directory for the created pack, defaults to process.cwd()"
   )
   .action(async (options) => {
-    await create({
+    await bundle({
       manifest: options.manifest,
       wasm: options.wasm,
       out: options.out ?? process.cwd(),

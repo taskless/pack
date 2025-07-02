@@ -5,13 +5,13 @@ import { type Manifest } from "@taskless/loader";
 import { mkdirp } from "mkdirp";
 import { create as c } from "tar";
 
-export type CreateOptions = {
+export type BundleOptions = {
   manifest: string;
   wasm: string;
   out: string;
 };
 
-export const create = async (options: CreateOptions) => {
+export const bundle = async (options: BundleOptions) => {
   // create a temp directory
   // resolve out, manifest, and wasm paths into absolute paths
   // copy the manifest and wasm files into the temp directory

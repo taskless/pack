@@ -1,5 +1,11 @@
 # @taskless/packcheck
 
+## 0.0.15
+
+### Patch Changes
+
+- Updates create command to bundle
+
 ## 0.0.14
 
 ### Patch Changes
