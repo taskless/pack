@@ -2,4 +2,6 @@
 /* eslint-disable unicorn/prefer-module */
 /* eslint-disable import/no-unassigned-import */
 "use strict";
-import "./dist/cli.js";
+
+// point to and import the CLI entry point
+import "./dist/src/cli.js";

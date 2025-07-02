@@ -1,5 +1,11 @@
 # @taskless/packcheck
 
+## 0.0.17
+
+### Patch Changes
+
+- Fixes an issue where the CLI would refer to a compiled file that no longer existed
+
 ## 0.0.16
 
 ### Patch Changes
