@@ -1,28 +1,17 @@
 import process from "node:process";
 import { Command } from "@commander-js/extra-typings";
-import { readPackageUpSync } from "read-package-up";
+import pk from "../package.json" with { type: "json" };
 import { bundle } from "./commands/bundle.js";
 import { check } from "./commands/check.js";
 import { install } from "./commands/install.js";
 import { publish } from "./commands/publish.js";
-
-const packageData = readPackageUpSync();
-const packageJson = packageData?.packageJson;
-
-if (!packageJson) {
-  console.error(
-    "Could not find package.json in the current directory or any parent directory."
-  );
-  // eslint-disable-next-line unicorn/no-process-exit
-  process.exit(1);
-}
 
 const program = new Command();
 
 program
   .name("pack")
   .description("Work with Taskless packs")
-  .version(packageJson.version ?? "unknown");
+  .version(pk.version ?? "unknown");
 
 program
   .command("check")
@@ -92,8 +81,8 @@ program
   .command("version")
   .description("Show the version of the pack CLI")
   .action(() => {
-    if (packageJson && packageJson.version) {
-      console.log(`Pack CLI version: ${packageJson.version}`);
+    if (pk?.version) {
+      console.log(`Pack CLI version: ${pk.version}`);
     } else {
       console.log("Pack CLI version: unknown");
     }

@@ -1,5 +1,11 @@
 # @taskless/packcheck
 
+## 0.0.16
+
+### Patch Changes
+
+- Updates versioning info and removes unneeded dependencies
+
 ## 0.0.15
 
 ### Patch Changes
