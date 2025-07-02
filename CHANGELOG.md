@@ -1,5 +1,11 @@
 # @taskless/packcheck
 
+## 0.0.18
+
+### Patch Changes
+
+- Makes format for pack check optional, defaulting to test output
+
 ## 0.0.17
 
 ### Patch Changes

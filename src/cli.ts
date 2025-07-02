@@ -20,12 +20,16 @@ program
   .requiredOption("--fixture <fixture>", "Path to the fixture file")
   .requiredOption("--manifest <manifest>", "Path to the manifest file")
   .requiredOption("--wasm <wasm>", "Path to the wasm file")
-  .requiredOption(
+  .option(
     "--format <format>",
-    "Output format. One of json, ndjson, none, test",
+    "Output format. One of json, ndjson, none, test. Defaults to test",
     (value) => {
-      const validFormats = ["json", "ndjson", "none", "test"];
+      const validFormats = ["json", "ndjson", "none", "test", "", undefined];
       if (validFormats.includes(value)) {
+        if (value === "" || value === undefined) {
+          return "test"; // Default to json if empty
+        }
+
         return value;
       }
 
