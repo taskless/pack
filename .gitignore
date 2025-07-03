@@ -5,6 +5,7 @@ tmp
 .build
 .out
 .tsimp
+.taskless
 coverage
 
 # Standard node affairs

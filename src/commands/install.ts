@@ -86,7 +86,6 @@ export const install = async (options: InstallOptions) => {
   await saveFile(options.url, filePath);
   await extract({
     file: filePath,
-    strip: 1,
     cwd: downloadDirectory,
   });
 

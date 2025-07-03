@@ -1,5 +1,11 @@
 # @taskless/packcheck
 
+## 0.0.20
+
+### Patch Changes
+
+- Fixes tar extraction to remove path stripping
+
 ## 0.0.19
 
 ### Patch Changes
