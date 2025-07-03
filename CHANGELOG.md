@@ -1,5 +1,11 @@
 # @taskless/packcheck
 
+## 0.0.19
+
+### Patch Changes
+
+- fbe1346: [bundle] - Full paths are no longer included in the bundled tgz
+
 ## 0.0.18
 
 ### Patch Changes
