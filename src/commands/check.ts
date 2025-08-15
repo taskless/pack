@@ -7,7 +7,7 @@ import { http } from "msw";
 import { setupServer } from "msw/node";
 import { type JsonObject } from "type-fest";
 import { z } from "zod";
-import type { ConsolePayload, Manifest } from "@taskless/loader";
+import type { ConsolePayload, Pack } from "@taskless/loader";
 
 export const validateFixture = z.object({
   request: z.object({
@@ -20,6 +20,7 @@ export const validateFixture = z.object({
     status: z.number(),
     statusText: z.string().optional(),
     headers: z.array(z.tuple([z.string(), z.string()])),
+    stream: z.boolean().optional(),
     body: z.string().optional(),
   }),
   tests: z
@@ -40,9 +41,9 @@ export type PackcheckOptions = {
   wasm: string;
 };
 
-const loadManifest = async (path: string): Promise<Manifest> => {
+const loadManifest = async (path: string): Promise<Pack> => {
   const contents = await readFile(path);
-  const manifest = JSON.parse(contents.toString()) as Manifest;
+  const manifest = JSON.parse(contents.toString()) as Pack;
 
   return manifest;
 };
@@ -71,11 +72,28 @@ export const check = async (options: PackcheckOptions) => {
     headers: fixtureFile.request.headers,
     body: fixtureFile.request.body,
   });
-  const response = new Response(fixtureFile.response.body, {
+
+  let response = new Response(fixtureFile.response.body, {
     status: fixtureFile.response.status,
     statusText: fixtureFile.response.statusText,
     headers: fixtureFile.response.headers,
   });
+
+  if (fixtureFile.response.stream) {
+    // If the response is a stream, we need to create a ReadableStream
+    const bodyStream = new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode(fixtureFile.response.body));
+        controller.close();
+      },
+    });
+
+    response = new Response(bodyStream, {
+      status: fixtureFile.response.status,
+      statusText: fixtureFile.response.statusText,
+      headers: fixtureFile.response.headers,
+    });
+  }
 
   const msw = setupServer(
     http.all("*", async (info) => {
@@ -124,10 +142,8 @@ export const check = async (options: PackcheckOptions) => {
   t.add(manifestFile, wasmFile);
 
   await t.load();
-
   await fetch(request);
-
-  await t.flush();
+  await t.shutdown();
 
   msw.close();
 

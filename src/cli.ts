@@ -111,4 +111,9 @@ program
     });
   });
 
+// eslint-disable-next-line n/no-process-env
+if (process.env.PACK_CLI_LOCAL === "1") {
+  console.log("Local CLI mode enabled");
+}
+
 program.parse(process.argv);
