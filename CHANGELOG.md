@@ -1,5 +1,11 @@
 # @taskless/packcheck
 
+## 0.0.22
+
+### Patch Changes
+
+- Adds support for checking chunked streaming responses
+
 ## 0.0.20
 
 ### Patch Changes
